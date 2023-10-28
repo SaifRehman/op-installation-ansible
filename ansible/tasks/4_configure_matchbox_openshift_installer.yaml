@@ -20,7 +20,7 @@
         dest: /usr/local/bin/matchbox
     - name: Add the user 'matchbox' 
       ansible.builtin.user:
-      name: matchbox
+        name: matchbox
     - name: create matchbox directories
       file:
         path: "/var/lib/matchbox/{{item}}"
