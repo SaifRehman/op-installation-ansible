@@ -13,3 +13,15 @@
         - name: create disks for  worker nodes
           shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}} && virsh vol-create-as default {{item.name}}c.qcow2 {{item.disk_size_c}}"
           when: item.type=='worker'
+
+
+
+    - name: creating all vms
+      loop: "{{cluster_info_variables}}"
+      block:
+        - name: create vms for non worker nodes
+          shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}}"
+          when: item.type!='worker'
+        - name: create disks for  worker nodes
+          shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}} && virsh vol-create-as default {{item.name}}c.qcow2 {{item.disk_size_c}}"
+          when: item.type=='worker'
