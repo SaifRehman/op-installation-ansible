@@ -10,5 +10,3 @@
       ansible.builtin.shell:
         chdir: /
         cmd: virsh net-define net_ocp.xml && virsh net-autostart ocp && virsh net-start ocp
-
-      
