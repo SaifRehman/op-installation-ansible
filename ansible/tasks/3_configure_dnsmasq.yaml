@@ -9,6 +9,11 @@
         name: dnsmasq
         enabled: true
         state: started
+    - name: start and enable haproxy service 
+      ansible.builtin.systemd:
+        name: haproxy
+        enabled: true
+        state: started
     - name: create tftp directory
       ansible.builtin.file:
         state: directory
@@ -54,5 +59,14 @@
     - name: restart dnsmasq
       ansible.builtin.systemd:
         name: dnsmasq
+        daemon_reload: true
+        state: restarted
+    - name: copy the host template to /etc/host directory
+      ansible.builtin.template:
+        src: templates/haproxy.j2
+        dest: /etc/haproxy/haproxy.cfg
+    - name: restart haproxy
+      ansible.builtin.systemd:
+        name: haproxy
         daemon_reload: true
         state: restarted
