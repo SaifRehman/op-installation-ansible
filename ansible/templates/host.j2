@@ -2,7 +2,7 @@
 159.8.235.201 baremetal01.dst-bm-test1.cloud baremetal01
 
 {% for dnsmasq_clusterinfo in all_vars %}
-{% if 'master' in dnsmasq_clusterinfo.name %}
+{% if 'master' in dnsmasq_clusterinfo.type %}
 {{dnsmasq_clusterinfo.ipaddress}}  {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}}
 {{dnsmasq_clusterinfo.ipaddress}}  {{dnsmasq_clusterinfo.etcd_name}}.{{clustername}}.{{dns}}
 {% else %}

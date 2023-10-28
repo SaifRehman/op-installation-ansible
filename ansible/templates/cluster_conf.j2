@@ -1,5 +1,5 @@
 {% for dnsmasq_clusterinfo in all_vars %}
-{% if 'master' in dnsmasq_clusterinfo.name %}
+{% if 'master' in dnsmasq_clusterinfo.type %}
 dhcp-host={{dnsmasq_clusterinfo.mac_address}},{{dnsmasq_clusterinfo.ipaddress}}
 address=/{{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}}/{{dnsmasq_clusterinfo.ipaddress}}
 ptr-record={{dnsmasq_clusterinfo.ptr_record}},{{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}}
