@@ -1,0 +1,18 @@
+---
+- name: install ocp
+  hosts: all
+  vars_files:
+    - templates/cluster_info_variables.yaml
+  tasks:
+    - name: start all vms
+      loop: "{{all_vars}}"
+      shell: "virsh start {{item.name}}"
+    - name: run bootstrap
+      ansible.builtin.shell:
+        chdir: ~/ocp-install
+        cmd: openshift-install --dir=. wait-for bootstrap-complete --log-level=debug
+    - name: run ocp installation
+      ansible.builtin.shell:
+        chdir: ~/ocp-install
+        cmd: openshift-install --dir=. wait-for install-complete --log-level=debug
+  
