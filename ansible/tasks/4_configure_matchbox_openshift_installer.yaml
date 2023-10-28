@@ -1,0 +1,116 @@
+---
+- name: configure matchbox and openshift installer
+  hosts: all
+  vars_files:
+    - vars/misc.yaml
+    - vars/cluster_info_variables.yaml
+    - vars/secret.yaml
+  tasks:
+    - name: download matchbox binary 
+      ansible.builtin.get_url:
+        url: https://github.com/poseidon/matchbox/releases/download/v0.8.3/matchbox-v0.8.3-linux-amd64.tar.gz
+        dest: /
+    - name: Extract foo.tgz into /var/lib/foo
+      ansible.builtin.unarchive:
+        src: /matchbox-v0.8.3-linux-amd64.tar.gz
+        dest: /
+    - name: Copy content of directory 'matchbox'
+      copy:
+        src: /matchbox-v0.8.3-linux-amd64/matchbox
+        dest: /usr/local/bin/matchbox
+    - name: Add the user 'matchbox' 
+      ansible.builtin.user:
+      name: matchbox
+    - name: create matchbox directories
+      file:
+        path: "/var/lib/matchbox/{{item}}"
+        recurse: yes
+        state: directory
+      with_items: ["assets","groups","ignition","profiles"]
+    - name: Copy content of directory 'matchbox-local.service'
+      copy:
+        src: /matchbox-v0.8.3-linux-amd64/contrib/systemd/matchbox-local.service
+        dest: /etc/systemd/system/matchbox.service
+    - name: download all openshift binaries  
+      ansible.builtin.get_url:
+        url: "{{item}}"
+        dest: /var/lib/matchbox/assets
+      with_items: "{{openshift_binaries}}"
+    - name: copy all groups
+      ansible.builtin.template:
+        src: "templates/groups/{{item}}.json"
+        dest: "/var/lib/matchbox/groups/{{item}}.json"
+      with_items: ["bootstrap","master1","master2","master3","worker1","worker2","worker3"]
+    - name: copy  bootsrap profile
+      ansible.builtin.template:
+        src: "templates/profiles/bootstrap.json"
+        dest: "/var/lib/matchbox/profile/bootstrap.json"
+    - name: copy  master profile
+      ansible.builtin.template:
+        src: "templates/profiles/master.json"
+        dest: "/var/lib/matchbox/profile/master.json"
+    - name: copy  worker profile
+      ansible.builtin.template:
+        src: "templates/profiles/worker.json"
+        dest: "/var/lib/matchbox/profile/worker.json"
+    - name: change ownership
+      ansible.builtin.shell: chown -R matchbox:matchbox /var/lib/matchbox
+    - name: download openshift cli binaries
+      ansible.builtin.get_url:
+        url: "{{openshift_cli_binaries}}"
+        dest: /
+    - name: Extract openshift cli binaries
+      ansible.builtin.unarchive:
+        src: /openshift-client-linux.tar.gz
+        dest: /
+    - name: Copy content of directory 'oc'
+      copy:
+        src: /openshift-client-linux/oc
+        dest: /usr/local/bin/oc
+    - name: Copy content of directory 'kubectl'
+      copy:
+        src: /openshift-client-linux/kubectl
+        dest: /usr/local/bin/kubectl
+    - name: download openshift-installer cli binaries
+      ansible.builtin.get_url:
+        url: "{{openshift_installee_cli_binaries}}"
+        dest: /
+    - name: Extract openshift cli binaries
+      ansible.builtin.unarchive:
+        src: /openshift-install-linux.tar.gz
+        dest: /
+    - name: Copy content of directory 'openshift-install'
+      copy:
+        src: /openshift-install-linux/openshift-install
+        dest: /usr/local/bin/openshift-install
+    - name: Create a directory ocp-install if it does not exist
+      ansible.builtin.file:
+        path: /ocp-install
+        state: directory
+    - name: copy configfile install-config.yaml
+      ansible.builtin.template:
+        src: "templates/install_config.j2"
+        dest: "/ocp-install/install-config.yaml"
+    - name: create ignition files
+      ansible.builtin.shell:
+        chdir: /ocp-install
+        cmd: openshift-install create ignition-configs
+    - name: Remove any exisiting ignition files (from a previous install attempt), copy the files to the matchbox location, and set the permissions to read.
+      ansible.builtin.shell:
+        chdir: /ocp-install
+        cmd: rm -f /var/lib/matchbox/ignition/*.ign && cp *.ign /var/lib/matchbox/ignition/ && chmod +r /var/lib/matchbox/ignition/*
+    - name: restart matchbox
+      ansible.builtin.systemd:
+        name: matchbox
+        daemon_reload: true
+        state: restarted
+    - name: restart dnsmasq
+      ansible.builtin.systemd:
+        name: dnsmasq
+        daemon_reload: true
+        state: restarted
+    - name: restart haproxy
+      ansible.builtin.systemd:
+        name: haproxy
+        daemon_reload: true
+        state: restarted

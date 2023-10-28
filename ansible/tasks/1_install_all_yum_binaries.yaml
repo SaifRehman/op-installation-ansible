@@ -1,0 +1,11 @@
+---
+- name: install all yum binaries
+  hosts: all
+  vars_files:
+    - vars/yum_variables.yaml
+  tasks:
+    - name: install all yum binaries needed for openshift
+      loop: "{{yum_all_binaries}}"
+      ansible.builtin.yum:
+        name: "{{item}}"
+        state: present

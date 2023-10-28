@@ -1,0 +1,12 @@
+{% for dnsmasq_clusterinfo in all_vars %}
+{% if 'bootstrap' in dnsmasq_clusterinfo.name %}
+{
+    "id": {{dnsmasq_clusterinfo.name}},
+    "name": {{dnsmasq_clusterinfo.name}},
+    "profile": {{dnsmasq_clusterinfo.type}},
+    "selector": {
+      "mac": {{dnsmasq_clusterinfo.mac_address}} #add mac address of bootstrap
+    }
+}
+{% endif %}
+{% endfor %}

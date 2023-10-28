@@ -1,0 +1,55 @@
+---
+clustername: emeademocluster
+dns: dtremea.online
+all_vars:
+  - mac_address: 52:54:00:02:85:01
+    ipaddress: 192.168.10.152
+    ptr_record: 152.10.168.192.in-addr.arpa
+    name: bootstrap
+    type: bootstrap
+    disk_size: 100G
+  - mac_address: 52:54:00:02:86:01
+    ipaddress: 192.168.10.91
+    ptr_record: 91.10.168.192.in-addr.arpa
+    name: master1
+    etcd_name: etcd-0
+    port: 2380
+    type: master
+    disk_size: 100G
+  - mac_address: 52:54:00:02:86:02
+    ipaddress: 192.168.10.92
+    ptr_record: 92.10.168.192.in-addr.arpa.in-addr.arpa
+    name: master2
+    etcd_name: etcd-1
+    port: 2380
+    type: master
+    disk_size: 100G
+  - mac_address: 52:54:00:02:86:03
+    ipaddress: 192.168.10.93
+    ptr_record: 93.10.168.192.in-addr.arpa
+    name: master3
+    etcd_name: etcd-2
+    port: 2380
+    type: master
+    disk_size: 100G
+  - mac_address: 52:54:00:02:87:01
+    ipaddress: 192.168.10.30
+    ptr_record: 30.10.168.192.in-addr.arpa
+    name: worker1
+    type: worker
+    disk_size: 100G
+    disk_size_c: 250G
+  - mac_address: 52:54:00:02:87:02
+    ipaddress: 192.168.10.31 
+    ptr_record: 31.10.168.192.in-addr.arpa
+    name: worker2
+    type: worker
+    disk_size: 100G
+    disk_size_c: 250G
+  - mac_address: 52:54:00:02:87:03
+    ipaddress: 192.168.10.32
+    ptr_record: 32.10.168.192.in-addr.arpa
+    name: worker3
+    type: worker
+    disk_size: 100G
+    disk_size_c: 100G

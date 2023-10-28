@@ -1,0 +1,58 @@
+---
+- name: configure dnsmasq
+  hosts: all
+  vars_files:
+    - vars/cluster_info_variables.yaml
+  tasks:
+    - name: start and enable dnsmasq service 
+      ansible.builtin.systemd:
+        name: dnsmasq
+        enabled: true
+        state: started
+    - name: create tftp directory
+      ansible.builtin.file:
+        state: directory
+        path: /var/lib/tftp
+    - name: copy undionly.kpxe files
+      ansible.builtin.copy:
+        src: /usr/share/ipxe/undionly.kpxe 
+        dest: /var/lib/tftp/
+    - name: copy ipxe-x86_64.efi file
+      ansible.builtin.copy:
+        src: /usr/share/ipxe/ipxe-x86_64.efi.kpxe 
+        dest: /var/lib/tftp/
+    - name: rename file from ipxe-x86_64.efi to ipxe.efi
+      ansible.builtin.shell: mv /var/lib/tftp/ipxe-x86_64.efi /var/lib/tftp/ipxe.efi 
+    - name: give file permission
+      ansible.builtin.shell: chown dnsmasq:nobody /var/lib/tftp/*
+    - name: Backup the original DNSmasq configuration file.
+      ansible.builtin.shell: mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+    - name: copy the cluster_conf template to /etc/dnsmasq.d/cluster.conf directory
+      ansible.builtin.template:
+        src: templates/cluster_conf.j2
+        dest: /etc/dnsmasq.d/cluster.conf
+    - name: copy the dnsmasq_conf template to /etc/dnsmasq.conf directory
+      ansible.builtin.template:
+        src: templates/dnsmasq_conf.j2
+        dest: /etc/dnsmasq.conf
+    - name: Remove file /var/lib/misc/dnsmasq.leases
+      ansible.builtin.file:
+        path: /var/lib/misc/dnsmasq.leases
+        state: absent
+    - name: create file 
+      ansible.builtin.file:
+        path: /var/lib/misc/dnsmasq.leases
+        state: touch
+    - name: change Bond0 network
+      ansible.builtin.shell: nmcli connection modify "Bond bond0" ipv4.dns "127.0.0.1"
+    - name: change Bond1 network
+      ansible.builtin.shell: nmcli connection modify "Bond bond1" ipv4.dns "127.0.0.1"
+    - name: copy the host template to /etc/host directory
+      ansible.builtin.template:
+        src: templates/host.j2
+        dest: /etc/host
+    - name: restart dnsmasq
+      ansible.builtin.systemd:
+        name: dnsmasq
+        daemon_reload: true
+        state: restarted

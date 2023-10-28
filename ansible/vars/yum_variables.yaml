@@ -1,0 +1,22 @@
+---
+yum_all_binaries:
+  bridge-utils 
+  qemu-kvm 
+  virtinst 
+  libvirt-daemon 
+  virt-manager 
+  net-tools 
+  curl
+  nano
+  tree
+  wget
+  jq
+  nfs-common
+  cifs-utils
+  libosinfo-bin
+  bridge-utils
+  chronyd
+  ipxe-bootimgs
+  dnsmasq 
+  haproxy 
+  nfs-utils 
