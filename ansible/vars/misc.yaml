@@ -1,6 +1,6 @@
 ---
 openshift_cli_binaries:  https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.13/openshift-client-linux.tar.gz
-openshift_installee_cli_binaries: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.13/openshift-install-linux.tar.gz
+openshift_install_cli_binaries: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.13/openshift-install-linux.tar.gz
 openshift_binaries:
   - https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.13/latest/rhcos-live-initramfs.x86_64.img
   - https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.13/latest/rhcos-live-kernel-x86_64

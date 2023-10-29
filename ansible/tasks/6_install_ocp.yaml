@@ -7,6 +7,9 @@
     - name: start all vms
       loop: "{{all_vars}}"
       shell: "virsh start {{item.name}}"
+    - name: Sleep for 250 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 250
     - name: run bootstrap
       ansible.builtin.shell:
         chdir: ~/ocp-install

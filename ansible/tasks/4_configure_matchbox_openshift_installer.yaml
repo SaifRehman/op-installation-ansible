@@ -73,7 +73,7 @@
         dest: /usr/local/bin/kubectl
     - name: download openshift-installer cli binaries
       ansible.builtin.get_url:
-        url: "{{openshift_installee_cli_binaries}}"
+        url: "{{openshift_install_cli_binaries}}"
         dest: /
     - name: Extract openshift cli binaries
       ansible.builtin.unarchive:
