@@ -34,11 +34,11 @@
       ansible.builtin.shell: mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
     - name: copy the cluster_conf template to /etc/dnsmasq.d/cluster.conf directory
       ansible.builtin.template:
-        src: templates/cluster_conf.j2
+        src: cluster_conf.j2
         dest: /etc/dnsmasq.d/cluster.conf
     - name: copy the dnsmasq_conf template to /etc/dnsmasq.conf directory
       ansible.builtin.template:
-        src: templates/dnsmasq_conf.j2
+        src: dnsmasq_conf.j2
         dest: /etc/dnsmasq.conf
     - name: Remove file /var/lib/misc/dnsmasq.leases
       ansible.builtin.file:
@@ -54,7 +54,7 @@
       ansible.builtin.shell: nmcli connection modify "Bond bond1" ipv4.dns "127.0.0.1"
     - name: copy the host template to /etc/host directory
       ansible.builtin.template:
-        src: templates/host.j2
+        src: host.j2
         dest: /etc/host
     - name: restart dnsmasq
       ansible.builtin.systemd:
@@ -63,7 +63,7 @@
         state: restarted
     - name: copy the host template to /etc/host directory
       ansible.builtin.template:
-        src: templates/haproxy.j2
+        src: haproxy.j2
         dest: /etc/haproxy/haproxy.cfg
     - name: restart haproxy
       ansible.builtin.systemd:

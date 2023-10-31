@@ -4,7 +4,7 @@
   tasks:
     - name: copy the template virtual_net to root
       ansible.builtin.template:
-        src: templates/virtual_net.j2
+        src: virtual_net.j2
         dest: /net_ocp.xml
     - name: start the virtual network 
       ansible.builtin.shell:

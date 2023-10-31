@@ -14,7 +14,7 @@
         state: directory
     - name: copy configfile install-config.yaml
       ansible.builtin.template:
-        src: "templates/install_config.j2"
+        src: "install_config.j2"
         dest: "~/ocp-install/install-config.yaml"
     - name: create ignition files
       ansible.builtin.shell:

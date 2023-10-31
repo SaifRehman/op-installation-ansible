@@ -38,20 +38,20 @@
       with_items: "{{openshift_binaries}}"
     - name: copy all groups
       ansible.builtin.template:
-        src: "templates/groups/{{item}}.json"
+        src: "groups/{{item}}.json"
         dest: "/var/lib/matchbox/groups/{{item}}.json"
       with_items: ["bootstrap","master1","master2","master3","worker1","worker2","worker3"]
     - name: copy  bootsrap profile
       ansible.builtin.template:
-        src: "templates/profiles/bootstrap.json"
+        src: "profiles/bootstrap.json"
         dest: "/var/lib/matchbox/profile/bootstrap.json"
     - name: copy  master profile
       ansible.builtin.template:
-        src: "templates/profiles/master.json"
+        src: "profiles/master.json"
         dest: "/var/lib/matchbox/profile/master.json"
     - name: copy  worker profile
       ansible.builtin.template:
-        src: "templates/profiles/worker.json"
+        src: "profiles/worker.json"
         dest: "/var/lib/matchbox/profile/worker.json"
     - name: change ownership
       ansible.builtin.shell: chown -R matchbox:matchbox /var/lib/matchbox

@@ -2,7 +2,7 @@
 - name: install ocp
   hosts: all
   vars_files:
-    - templates/cluster_info_variables.yaml
+    - cluster_info_variables.yaml
   tasks:
     - name: start all vms
       loop: "{{all_vars}}"
