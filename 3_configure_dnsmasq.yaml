@@ -1,6 +1,6 @@
 ---
 - name: configure dnsmasq
-  hosts: all
+  hosts: Production-BareMetal-IBM
   vars_files:
     - vars/cluster_info_variables.yaml
   tasks:
