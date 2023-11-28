@@ -1,6 +1,6 @@
 ---
 - name: configure virtual network 
-  hosts: all
+  hosts: Production-BareMetal-IBM
   tasks:
     - name: copy the template virtual_net to root
       ansible.builtin.template:
