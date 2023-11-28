@@ -1,8 +1,8 @@
 ---
 - name: creating disks and vms
-  hosts: all
+  hosts: Production-BareMetal-IBM
   vars_files:
-    - templates/cluster_info_variables.yaml
+    - cluster_info_variables.yaml
   tasks:
     - name: Delete content & directory of ocp-install
       ansible.builtin.file:
