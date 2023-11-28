@@ -1,10 +1,10 @@
 ---
 - name: configure matchbox and openshift installer
-  hosts: all
+  hosts: Production-BareMetal-IBM
   vars_files:
-    - vars/misc.yaml
-    - vars/cluster_info_variables.yaml
-    - vars/secret.yaml
+    - misc.yaml
+    - cluster_info_variables.yaml
+    - secret.yaml
   tasks:
     - name: download matchbox binary 
       ansible.builtin.get_url:
