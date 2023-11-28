@@ -1,6 +1,6 @@
 ---
 - name: install all yum binaries
-  hosts: all
+  hosts: Production-BareMetal-IBM
   vars_files:
     - yum_variables.yaml
   tasks:
