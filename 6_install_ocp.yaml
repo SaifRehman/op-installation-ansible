@@ -1,6 +1,6 @@
 ---
 - name: install ocp
-  hosts: all
+  hosts: Production-BareMetal-IBM
   vars_files:
     - cluster_info_variables.yaml
   tasks:
