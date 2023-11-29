@@ -2,7 +2,7 @@
 - name: configure dnsmasq
   hosts: Production-BareMetal-IBM
   vars_files:
-    - vars/cluster_info_variables.yaml
+    - cluster_info_variables.yaml
   tasks:
     - name: start and enable dnsmasq service 
       ansible.builtin.systemd:
