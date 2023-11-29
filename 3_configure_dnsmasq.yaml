@@ -21,7 +21,7 @@
     - name: copy undionly.kpxe files
       ansible.builtin.shell: cp /usr/share/ipxe/undionly.kpxe  /var/lib/tftp/
     - name: copy ipxe-x86_64.efi file
-      ansible.builtin.shell: cp /usr/share/ipxe/ipxe-x86_64.efi.kpxe /var/lib/tftp/
+      ansible.builtin.shell: cp /usr/share/ipxe/ipxe-x86_64.efi /var/lib/tftp/
     - name: rename file from ipxe-x86_64.efi to ipxe.efi
       ansible.builtin.shell: mv /var/lib/tftp/ipxe-x86_64.efi /var/lib/tftp/ipxe.efi 
     - name: give file permission
