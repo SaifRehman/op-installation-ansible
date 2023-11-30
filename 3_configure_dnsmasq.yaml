@@ -51,7 +51,7 @@
     - name: copy the host template to /etc/host directory
       ansible.builtin.template:
         src: host.j2
-        dest: /etc/host
+        dest: /etc/hosts
     - name: restart dnsmasq
       ansible.builtin.systemd:
         name: dnsmasq
