@@ -3,6 +3,7 @@
   hosts: Production-BareMetal-IBM
   vars_files:
     - cluster_info_variables.yaml
+    - secret.yaml
   tasks:
     - name: Delete content & directory of ocp-install
       ansible.builtin.file:
