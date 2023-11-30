@@ -50,6 +50,8 @@
       ansible.builtin.shell: nmcli connection modify "Bond bond0" ipv4.dns "127.0.0.1"
     - name: change Bond1 network
       ansible.builtin.shell: nmcli connection modify "Bond bond1" ipv4.dns "127.0.0.1"
+    - name: connection reload
+      ansible.builtin.shell: nmcli connection reload
     - name: copy the host template to /etc/host directory
       ansible.builtin.template:
         src: host.j2
