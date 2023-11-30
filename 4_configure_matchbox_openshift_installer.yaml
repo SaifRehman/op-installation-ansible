@@ -65,9 +65,9 @@
     - name: Extract openshift cli binaries
       ansible.builtin.shell: cd / && tar xvf openshift-client-linux.tar.gz
     - name: Copy content of directory 'oc'
-      ansible.builtin.shell: cp /openshift-client-linux/oc /usr/local/bin/oc
+      ansible.builtin.shell: cp /oc /usr/local/bin/oc
     - name: Copy content of directory 'kubectl'
-      ansible.builtin.shell: cp /openshift-client-linux/kubectl /usr/local/bin/kubectl
+      ansible.builtin.shell: cp /kubectl /usr/local/bin/kubectl
     - name: download openshift-installer cli binaries
       ansible.builtin.get_url:
         url: "{{openshift_install_cli_binaries}}"
