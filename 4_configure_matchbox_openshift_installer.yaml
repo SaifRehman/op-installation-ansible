@@ -22,12 +22,14 @@
       ansible.builtin.file:
         path: /var/lib/matchbox
         state: directory
+        mode: '0755'
       become: yes
     - name: create matchbox directories
       ansible.builtin.file:
         path: /var/lib/matchbox/{{item}}
         recurse: yes
         state: directory
+        mode: '0755'
       become: yes
       with_items: ["assets","groups","ignition","profiles"]
     - name: Copy content of directory 'matchbox-local.service'
