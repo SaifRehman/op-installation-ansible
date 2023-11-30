@@ -47,15 +47,15 @@
     - name: copy  bootsrap profile
       ansible.builtin.template:
         src: "bootstrapprofile.j2"
-        dest: "/var/lib/matchbox/profile/bootstrap.json"
+        dest: "/var/lib/matchbox/profiles/bootstrap.json"
     - name: copy  master profile
       ansible.builtin.template:
         src: "masterprofile.j2"
-        dest: "/var/lib/matchbox/profile/master.json"
+        dest: "/var/lib/matchbox/profiles/master.json"
     - name: copy  worker profile
       ansible.builtin.template:
         src: "workerprofile.j2"
-        dest: "/var/lib/matchbox/profile/worker.json"
+        dest: "/var/lib/matchbox/profiles/worker.json"
     - name: change ownership
       ansible.builtin.shell: chown -R matchbox:matchbox /var/lib/matchbox
     - name: download openshift cli binaries
