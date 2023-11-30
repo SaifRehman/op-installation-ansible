@@ -99,3 +99,17 @@ backend ingress-workers
     server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:443 check
     {% endif %}
 {% endfor %}
+
+frontend ingress-workers-tcp
+    bind *:33000-34000
+    default_backend ingress-workers-tcp
+    mode tcp
+    option tcplog
+backend ingress-workers-tcp
+    balance source
+    mode tcp
+{% for dnsmasq_clusterinfo in all_vars %}
+    {% if 'worker' in dnsmasq_clusterinfo.type or 'master' in dnsmasq_clusterinfo.type %}
+    server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:443 check
+    {% endif %}
+{% endfor %}
