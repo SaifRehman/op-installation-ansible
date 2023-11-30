@@ -22,7 +22,7 @@ backend machine-config-server
     mode tcp
 {% for dnsmasq_clusterinfo in all_vars %}
     {% if 'bootstrap' in dnsmasq_clusterinfo.type or 'master' in dnsmasq_clusterinfo.type %}
-    server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:6443 check
+    server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:22623 check
     {% endif %}
 {% endfor %}
 frontend ingress-http
@@ -48,6 +48,6 @@ backend ingress-workers
     mode tcp
 {% for dnsmasq_clusterinfo in all_vars %}
     {% if 'worker' in dnsmasq_clusterinfo.type or 'master' in dnsmasq_clusterinfo.type %}
-    server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:80 check
+    server {{dnsmasq_clusterinfo.name}}.{{clustername}}.{{dns}} {{dnsmasq_clusterinfo.ipaddress}}:443 check
     {% endif %}
 {% endfor %}
