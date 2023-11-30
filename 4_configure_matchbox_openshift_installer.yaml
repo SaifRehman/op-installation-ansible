@@ -15,9 +15,7 @@
         src: /matchbox-v0.8.3-linux-amd64.tar.gz
         dest: /
     - name: Copy content of directory 'matchbox'
-      copy:
-        src: /matchbox-v0.8.3-linux-amd64/matchbox
-        dest: /usr/local/bin/matchbox
+      ansible.builtin.shell: cp  /matchbox-v0.8.3-linux-amd64/matchbox  /usr/local/bin/matchbox
     - name: Add the user 'matchbox' 
       ansible.builtin.user:
         name: matchbox
@@ -28,9 +26,7 @@
         state: directory
       with_items: ["assets","groups","ignition","profiles"]
     - name: Copy content of directory 'matchbox-local.service'
-      copy:
-        src: /matchbox-v0.8.3-linux-amd64/contrib/systemd/matchbox-local.service
-        dest: /etc/systemd/system/matchbox.service
+      ansible.builtin.shell: cp /matchbox-v0.8.3-linux-amd64/contrib/systemd/matchbox-local.service /etc/systemd/system/matchbox.service
     - name: download all openshift binaries  
       ansible.builtin.get_url:
         url: "{{item}}"
@@ -64,13 +60,9 @@
         src: /openshift-client-linux.tar.gz
         dest: /
     - name: Copy content of directory 'oc'
-      copy:
-        src: /openshift-client-linux/oc
-        dest: /usr/local/bin/oc
+      ansible.builtin.shell: cp /openshift-client-linux/oc /usr/local/bin/oc
     - name: Copy content of directory 'kubectl'
-      copy:
-        src: /openshift-client-linux/kubectl
-        dest: /usr/local/bin/kubectl
+      ansible.builtin.shell: cp /openshift-client-linux/kubectl /usr/local/bin/kubectl
     - name: download openshift-installer cli binaries
       ansible.builtin.get_url:
         url: "{{openshift_install_cli_binaries}}"
@@ -80,6 +72,4 @@
         src: /openshift-install-linux.tar.gz
         dest: /
     - name: Copy content of directory 'openshift-install'
-      copy:
-        src: /openshift-install-linux/openshift-install
-        dest: /usr/local/bin/openshift-install
+      ansible.builtin.shell: cp /openshift-install-linux/openshift-install /usr/local/bin/openshift-install
