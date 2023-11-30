@@ -17,15 +17,18 @@
     - name: Add the user 'matchbox' 
       ansible.builtin.user:
         name: matchbox
+      become: yes
     - name: create matchbox directories name
       ansible.builtin.file:
         path: /var/lib/matchbox
         state: directory
+      become: yes
     - name: create matchbox directories
       ansible.builtin.file:
         path: /var/lib/matchbox/{{item}}
         recurse: yes
         state: directory
+      become: yes
       with_items: ["assets","groups","ignition","profiles"]
     - name: Copy content of directory 'matchbox-local.service'
       ansible.builtin.shell: cp /matchbox-v0.8.3-linux-amd64/contrib/systemd/matchbox-local.service /etc/systemd/system/matchbox.service
