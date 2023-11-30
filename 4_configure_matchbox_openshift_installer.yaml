@@ -19,11 +19,11 @@
         name: matchbox
     - name: create matchbox directories name
       ansible.builtin.file:
-        path: "/var/lib/matchbox"
+        path: /var/lib/matchbox
         state: directory
     - name: create matchbox directories
       ansible.builtin.file:
-        path: "/var/lib/matchbox/{{item}}"
+        path: /var/lib/matchbox/{{item}}
         recurse: yes
         state: directory
       with_items: ["assets","groups","ignition","profiles"]
