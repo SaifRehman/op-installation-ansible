@@ -1,6 +1,6 @@
 ---
-clustername: emeademocluster
-dns: dtremea.online
+clustername: democluster
+dns: emea-dst-techlab.com
 all_vars:
   - mac_address: 52:54:00:02:85:01
     ipaddress: 192.168.10.152
