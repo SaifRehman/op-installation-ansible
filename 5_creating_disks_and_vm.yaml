@@ -12,6 +12,8 @@
       ansible.builtin.file:
         path: ~/ocp-install
         state: directory
+        mode: '0755'
+      become: true
     - name: copy configfile install-config.yaml
       ansible.builtin.template:
         src: "install_config.j2"
@@ -39,24 +41,22 @@
         name: haproxy
         daemon_reload: true
         state: restarted
-    - name: creating all disks
+    - name: create disks for non worker nodes
       loop: "{{cluster_info_variables}}"
-      block:
-        - name: create disks for non worker nodes
-          shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}}G"
-          when: item.type!='worker'
-        - name: create disks for  worker nodes
-          shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}}G && virsh vol-create-as default {{item.name}}c.qcow2 {{item.disk_size_c}}G"
-          when: item.type=='worker'
-    - name: creating all vms
+      shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}}G"
+      when: item.type!='worker'
+    - name: create disks for  worker nodes
       loop: "{{cluster_info_variables}}"
-      block:
-        - name: create vms for non worker nodes
-          shell: "virt-install --name={{item.name}} --ram={{item.ram}} --vcpus={{item.vcpu}} --mac={{item.mac_address}}  --disk path=/var/lib/libvirt/images/{{item.name}}.qcow2,bus=virtio,size={{item.disk_size}}   --pxe --noautoconsole --graphics=vnc --hvm   --network network=ocp,model=virtio --os-variant fedora-coreos-stable --boot hd,network"
-          when: item.type!='worker'
-        - name: create disks for  worker nodes
-          shell: "virt-install --name={{item.name}} --ram={{item.ram}} --vcpus={{item.vcpu}} --mac={{item.mac_address}}  --disk path=/var/lib/libvirt/images/mac_address.qcow2,bus=virtio,size={{item.disk_size}} --disk path=/var/lib/libvirt/images/{{item.disk_name}}c.qcow2,bus=virtio   --pxe --noautoconsole --graphics=vnc --hvm   --network network=ocp,model=virtio --os-variant fedora-coreos-stable --boot hd,network"
-          when: item.type=='worker'
+      shell: "virsh vol-create-as default {{item.name}}.qcow2 {{item.disk_size}}G && virsh vol-create-as default {{item.name}}c.qcow2 {{item.disk_size_c}}G"
+      when: item.type=='worker'
+    - name: create vms for non worker nodes
+      loop: "{{cluster_info_variables}}"
+      shell: "virt-install --name={{item.name}} --ram={{item.ram}} --vcpus={{item.vcpu}} --mac={{item.mac_address}}  --disk path=/var/lib/libvirt/images/{{item.name}}.qcow2,bus=virtio,size={{item.disk_size}}   --pxe --noautoconsole --graphics=vnc --hvm   --network network=ocp,model=virtio --os-variant fedora-coreos-stable --boot hd,network"
+      when: item.type!='worker'
+    - name: create disks for  worker nodes
+      loop: "{{cluster_info_variables}}"
+      shell: "virt-install --name={{item.name}} --ram={{item.ram}} --vcpus={{item.vcpu}} --mac={{item.mac_address}}  --disk path=/var/lib/libvirt/images/mac_address.qcow2,bus=virtio,size={{item.disk_size}} --disk path=/var/lib/libvirt/images/{{item.disk_name}}c.qcow2,bus=virtio   --pxe --noautoconsole --graphics=vnc --hvm   --network network=ocp,model=virtio --os-variant fedora-coreos-stable --boot hd,network"
+      when: item.type=='worker'
     - name: Sleep for 250 seconds and continue with play
       ansible.builtin.wait_for:
         timeout: 250
