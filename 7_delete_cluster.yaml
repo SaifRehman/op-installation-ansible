@@ -1,0 +1,19 @@
+---
+- name: deleteing the cluster
+  hosts: Production-BareMetal-IBM
+  vars_files:
+    - cluster_info_variables.yaml
+  tasks:
+    - name: Delete content & directory of ocp-install
+      ansible.builtin.file:
+        state: absent
+        path: ~/ocp-install/
+    - name: destroy all vms
+      loop: "{{cluster_info_variables}}"
+      block:
+        - name: delete disks for non worker nodes
+          shell: "virsh destroy {{item.name}} && virsh undefine {{item.name}}  --remove-all-storage && virsh vol-delete --pool default {{item.name}}.qcow2  "
+          when: item.type!='worker'
+        - name: delete disks for  worker nodes
+          shell: "virsh destroy {{item.name}} && virsh undefine {{item.name}}  --remove-all-storage && virsh vol-delete --pool default {{item.name}}c.qcow2  "
+          when: item.type=='worker'
