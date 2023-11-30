@@ -76,3 +76,8 @@
       ansible.builtin.shell: cd / && tar xvf openshift-install-linux.tar.gz
     - name: Copy content of directory 'openshift-install'
       ansible.builtin.shell: cp /openshift-install /usr/local/bin/openshift-install
+    - name: start and enable matchbox service 
+      ansible.builtin.systemd:
+        name: matchbox
+        enabled: true
+        state: started
