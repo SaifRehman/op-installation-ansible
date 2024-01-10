@@ -18,7 +18,7 @@ all_vars:
     port: 2380
     type: master
     disk_size: 100
-    ram: 30480
+    ram: 35480
     vcpu: 12
   - mac_address: 52:54:00:02:86:02
     ipaddress: 192.168.10.92
@@ -28,7 +28,7 @@ all_vars:
     port: 2380
     type: master
     disk_size: 100
-    ram: 30480
+    ram: 35480
     vcpu: 12
   - mac_address: 52:54:00:02:86:03
     ipaddress: 192.168.10.93
@@ -38,7 +38,7 @@ all_vars:
     port: 2380
     type: master
     disk_size: 100
-    ram: 20480
+    ram: 35480
     vcpu: 12
   - mac_address: 52:54:00:02:87:01
     ipaddress: 192.168.10.30
